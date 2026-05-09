@@ -1,0 +1,32 @@
+%% Ownership matrix: who can write where
+%% This is the conflict-avoidance contract
+
+flowchart LR
+    subgraph wiki["wiki/"]
+        APPS_X["apps/app-X/"]
+        APPS_Y["apps/app-Y/"]
+        INT_XY["integrations/<br/>NN-X--Y--subject.md"]
+        FLOWS["flows/"]
+        DECS["decisions/"]
+        SHARED["shared/"]
+        INDEX["index.md"]
+        LOG["log.md"]
+    end
+
+    AGENT_X[App X<br/>LLM session] -->|"full write"| APPS_X
+    AGENT_X -->|"append-only"| LOG
+    AGENT_X -->|"if X is producer:<br/>full write"| INT_XY
+    AGENT_X -.->|"if X is consumer:<br/>Consumer notes only"| INT_XY
+    AGENT_X -->|"read only"| APPS_Y
+    AGENT_X -->|"propose only<br/>(via apps/X/proposed-adr/)"| DECS
+    AGENT_X -.->|"never edit"| INDEX
+    AGENT_X -->|"X-initiated flows: full;<br/>others: own section only"| FLOWS
+
+    classDef agent fill:#1f6feb,stroke:#0d419d,color:#fff
+    classDef allow fill:#238636,stroke:#0f5223,color:#fff
+    classDef deny fill:#da3633,stroke:#9c1a1a,color:#fff
+    classDef partial fill:#bf8700,stroke:#7a5800,color:#fff
+    class AGENT_X agent
+    class APPS_X,LOG allow
+    class APPS_Y,INDEX deny
+    class INT_XY,DECS,FLOWS,SHARED partial

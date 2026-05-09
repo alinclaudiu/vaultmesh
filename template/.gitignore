@@ -1,0 +1,37 @@
+# Server-specific marker (used by the pre-commit hook)
+.server-id
+
+# Obsidian local cache
+.obsidian/workspace.json
+.obsidian/workspaces.json
+.obsidian/cache
+
+# Editor local files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets that could land here by accident
+*.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+id_rsa
+id_ed25519
+
+# SQL dumps
+*.sql
+*.dump
+*.sql.gz
+
+# Raw uploads scratch
+raw/.tmp/
+raw/*.tmp

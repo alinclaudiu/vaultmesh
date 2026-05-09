@@ -1,0 +1,30 @@
+%% Sequence: vs at session start, vp at session end
+%% Shows the human-in-the-loop discipline at vp
+
+sequenceDiagram
+    participant H as Human
+    participant L as LLM agent
+    participant V as Local vault
+    participant R as Central remote
+
+    Note over H,L: Session starts
+    L->>V: vs
+    V->>R: git pull --rebase --autostash
+    R-->>V: latest log + pages
+    V-->>L: "Latest commit: ..."
+    L->>L: cat wiki/log.md | head -50
+    Note over L: Now aware of recent<br/>activity on all servers
+
+    Note over L: ... working ...
+    L->>V: edit pages, append log entry
+    Note over L: Session winds down
+    L->>H: "Propose: vp 'app: msg'"
+    H->>H: review diff
+    H->>L: "yes"
+    L->>V: vp "app: msg"
+    V->>V: git status (show diff)
+    V->>H: "Confirm? [y/N]"
+    H->>V: y
+    V->>R: git add, commit, push
+    R-->>V: pushed
+    Note over R: Now visible to<br/>every other server<br/>at their next vs

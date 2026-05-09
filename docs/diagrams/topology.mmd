@@ -1,0 +1,38 @@
+%% N-server topology with central git remote
+%% This is what makes VaultMesh "mesh" rather than "wiki"
+
+flowchart LR
+    subgraph remote["Central git remote"]
+        R[(vault.git)]
+    end
+
+    subgraph s1["Server 1"]
+        V1[/vault clone/]
+        A1["App α"]
+        A2["App β"]
+        V1 -. "drops CLAUDE.md" .-> A1
+        V1 -. "drops CLAUDE.md" .-> A2
+    end
+
+    subgraph s2["Server 2"]
+        V2[/vault clone/]
+        A3["App γ"]
+        V2 -. "drops CLAUDE.md" .-> A3
+    end
+
+    subgraph s3["Server N"]
+        V3[/vault clone/]
+        A4["App δ"]
+        V3 -. "drops CLAUDE.md" .-> A4
+    end
+
+    V1 <-->|"vs / vp"| R
+    V2 <-->|"vs / vp"| R
+    V3 <-->|"vs / vp"| R
+
+    classDef remote fill:#1f6feb,stroke:#0d419d,color:#fff
+    classDef clone fill:#238636,stroke:#0f5223,color:#fff
+    classDef app fill:#161b22,stroke:#30363d,color:#8b949e
+    class R remote
+    class V1,V2,V3 clone
+    class A1,A2,A3,A4 app

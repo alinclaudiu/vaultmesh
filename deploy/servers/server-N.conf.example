@@ -1,0 +1,34 @@
+# VaultMesh per-server config — Server N
+#
+# Copy this file to server-N.conf, edit the values, and pass it to
+# `bash deploy/setup-server.sh deploy/servers/server-N.conf`.
+#
+# Don't commit secrets here. The git URL and paths are non-sensitive
+# infrastructure facts — fine to version. Anything else (passwords,
+# tokens, real customer data) does NOT belong in this file.
+
+# Unique server number (1, 2, 3, …). Used for .server-id and log entries.
+SERVER_ID=N
+
+# Short human-readable label. Shows up in setup output.
+SERVER_NAME="short-label-here"
+
+# Central git remote that all servers pull from / push to.
+# Same URL on every server.
+REMOTE_GIT="ssh://user@vault-host.internal/path/to/vault.git"
+
+# Where the vault lives on this server. Typically /home/<user>/vault.
+VAULT_PATH="/home/USER/vault"
+
+# Where the VaultMesh checkout lives on this server. Used to find the
+# pre-commit hook and per-app CLAUDE.md files at setup time.
+PACKAGE_PATH="/home/USER/vaultmesh"
+
+# Apps that live on this server.
+# Format: "app-name|absolute-path-to-app-root"
+# `app-name` must match a file under per-app-claude-md/<app-name>.md
+# (or under template/apps/ if you're using the bundled examples).
+APPS=(
+  "app-name-1|/path/to/app-1"
+  "app-name-2|/path/to/app-2"
+)
