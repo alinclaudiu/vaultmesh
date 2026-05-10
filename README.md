@@ -118,6 +118,18 @@ If you have one service on one server, [Karpathy's original gist](https://gist.g
 
 ---
 
+## Sibling project: VaultMCP
+
+If you outgrow `vs`/`vp` discipline, want real-time sync, need an MCP-as-API for non-Claude-Code agents, want native semantic search via pgvector, or want to build other internal apps on top of the same database — see **[VaultMCP](https://github.com/alinclaudiu/vaultmcp)**.
+
+Same wiki structure, same conventions, **different transport bet**: a Master MCP server + Postgres+pgvector + per-server agents replace the manual `vs`/`vp` workflow with auto-sync. The DB doubles as an [OB1](https://github.com/NateBJones-Projects/OB1)-style platform that other applications can extend.
+
+Migration path: VaultMesh wikis are byte-compatible with VaultMCP. Stand up master, install agents one server at a time, retire `vs`/`vp` per server. Rollback at any point — master keeps a git mirror.
+
+Pick VaultMesh if you want zero infrastructure beyond a git remote. Pick VaultMCP if you want real-time, governance, and an extensible substrate.
+
+---
+
 ## Status
 
 **v0.1 — pattern + reference implementation.** The pattern has been running in production for months on a real ecosystem (5+ apps × 4 servers) before being extracted and sanitized into this repo. What's stable:
